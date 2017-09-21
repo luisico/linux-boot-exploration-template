@@ -1,0 +1,113 @@
+{
+  "min_packer_version": "0.12.1",
+  "description": "",
+
+  "builders": [
+    {
+      "name": "centos72",
+      "type": "virtualbox-iso",
+      "headless": "false",
+      "disk_size": "5192",
+      "skip_export": true,
+
+      "iso_url": "http://archive.kernel.org/centos-vault/7.2.1511/isos/x86_64/CentOS-7-x86_64-Minimal-1511.iso",
+      "iso_checksum_type": "sha256",
+      "iso_checksum": "f90e4d28fa377669b2db16cbcb451fcb9a89d2460e3645993e30e137ac37d284",
+
+      "guest_os_type": "RedHat_64",
+
+      "ssh_username": "root",
+      "ssh_password": "packer",
+      "ssh_timeout": "60m",
+
+      "shutdown_command": "shutdown -P now",
+
+      "http_directory": "http",
+      "boot_command": [
+        "<tab> ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/kickstart1.ks selinux=0<enter><wait>"
+      ],
+
+      "vboxmanage": [
+        [ "modifyvm", "{{.Name}}", "--memory", "512" ],
+        [ "modifyvm", "{{.Name}}", "--cpus", "1" ],
+        [ "modifyvm", "{{.Name}}", "--usb", "off" ],
+        [ "modifyvm", "{{.Name}}", "--usbehci", "off" ],
+        [ "modifyvm", "{{.Name}}", "--audio", "none" ]
+      ]
+    },
+
+    {
+      "name": "centos72dd",
+      "type": "virtualbox-iso",
+      "headless": "false",
+      "disk_size": "5192",
+      "skip_export": true,
+
+      "iso_url": "http://archive.kernel.org/centos-vault/7.2.1511/isos/x86_64/CentOS-7-x86_64-Minimal-1511.iso",
+      "iso_checksum_type": "sha256",
+      "iso_checksum": "f90e4d28fa377669b2db16cbcb451fcb9a89d2460e3645993e30e137ac37d284",
+
+      "guest_os_type": "RedHat_64",
+
+      "ssh_username": "root",
+      "ssh_password": "packer",
+      "ssh_timeout": "60m",
+
+      "shutdown_command": "shutdown -P now",
+
+      "http_directory": "http",
+      "boot_command": [
+        "<tab> ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/kickstart1.ks inst.dd=http://downloads.linux.hpe.com/repo/spp/rhel/7/x86_64/2017.07.1/kmod-hpsa-3.4.20-100.rhel7u2.x86_64.rpm selinux=0<enter><wait>"
+      ],
+
+      "vboxmanage": [
+        [ "modifyvm", "{{.Name}}", "--memory", "512" ],
+        [ "modifyvm", "{{.Name}}", "--cpus", "1" ],
+        [ "modifyvm", "{{.Name}}", "--usb", "off" ],
+        [ "modifyvm", "{{.Name}}", "--usbehci", "off" ],
+        [ "modifyvm", "{{.Name}}", "--audio", "none" ]
+      ]
+    },
+
+    {
+      "name": "centos72ks",
+      "type": "virtualbox-iso",
+      "headless": "false",
+      "disk_size": "5192",
+      "skip_export": true,
+
+      "iso_url": "http://archive.kernel.org/centos-vault/7.2.1511/isos/x86_64/CentOS-7-x86_64-Minimal-1511.iso",
+      "iso_checksum_type": "sha256",
+      "iso_checksum": "f90e4d28fa377669b2db16cbcb451fcb9a89d2460e3645993e30e137ac37d284",
+
+      "guest_os_type": "RedHat_64",
+
+      "ssh_username": "root",
+      "ssh_password": "packer",
+      "ssh_timeout": "60m",
+
+      "shutdown_command": "shutdown -P now",
+
+      "http_directory": "http",
+      "boot_command": [
+        "<tab> ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/kickstart2.ks selinux=0<enter><wait>"
+      ],
+
+      "vboxmanage": [
+        [ "modifyvm", "{{.Name}}", "--memory", "512" ],
+        [ "modifyvm", "{{.Name}}", "--cpus", "1" ],
+        [ "modifyvm", "{{.Name}}", "--usb", "off" ],
+        [ "modifyvm", "{{.Name}}", "--usbehci", "off" ],
+        [ "modifyvm", "{{.Name}}", "--audio", "none" ]
+      ]
+    }
+  ],
+
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": ["echo DONE"],
+      "pause_before": "60m"
+    }
+  ]
+}
